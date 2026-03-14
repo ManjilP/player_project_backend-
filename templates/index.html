@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="FutsLab - The ultimate futsal management platform. Manage games, track player stats, and build your team.">
+    <title>FutsLab | Futsal Management</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+
+    <!-- ===== LOADING SCREEN ===== -->
+    <div id="loading-screen" class="loading-screen">
+        <div class="loader">
+            <div class="loader-ball"></div>
+            <div class="loader-ball"></div>
+            <div class="loader-ball"></div>
+        </div>
+        <p class="loader-text">FutsLab</p>
+    </div>
+
+    <!-- ===== AUTH PAGES ===== -->
+    <div id="auth-container" class="auth-container hidden">
+        <!-- Login Page -->
+        <div id="login-page" class="auth-page">
+            <div class="auth-card glass-card">
+                <div class="auth-header">
+                    <div class="auth-logo">
+                        <i class="fas fa-futbol"></i>
+                    </div>
+                    <h1>Welcome Back</h1>
+                    <p class="auth-subtitle">Sign in to FutsLab</p>
+                </div>
+                <form id="login-form" class="auth-form">
+                    <div class="form-group">
+                        <label for="login-email"><i class="fas fa-envelope"></i> Email</label>
+                        <input type="email" id="login-email" placeholder="Enter your email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="login-password"><i class="fas fa-lock"></i> Password</label>
+                        <div class="password-input-wrapper">
+                            <input type="password" id="login-password" placeholder="Enter your password" required>
+                            <button type="button" class="toggle-password" onclick="togglePassword('login-password', this)">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <a href="#" onclick="showForgotPassword()" class="forgot-link">Forgot Password?</a>
+                    </div>
+                    <button type="submit" id="login-btn" class="btn btn-primary btn-full">
+                        <span>Sign In</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </button>
+                </form>
+                <div class="auth-footer">
+                    <p>Don't have an account? <a href="#" onclick="showPage('register-page')">Sign Up</a></p>
+                </div>
+            </div>
+            <div class="auth-bg-art">
+                <div class="floating-shape shape-1"></div>
+                <div class="floating-shape shape-2"></div>
+                <div class="floating-shape shape-3"></div>
+            </div>
+        </div>
+
+        <!-- Register Page -->
+        <div id="register-page" class="auth-page hidden">
+            <div class="auth-card glass-card">
+                <div class="auth-header">
+                    <div class="auth-logo">
+                        <i class="fas fa-futbol"></i>
+                    </div>
+                    <h1>Join FutsLab</h1>
+                    <p class="auth-subtitle">Create your player account</p>
+                </div>
+                <form id="register-form" class="auth-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="reg-name"><i class="fas fa-user"></i> Full Name</label>
+                            <input type="text" id="reg-name" placeholder="Your full name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="reg-email"><i class="fas fa-envelope"></i> Email</label>
+                            <input type="email" id="reg-email" placeholder="Your email" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="reg-contact"><i class="fas fa-phone"></i> Contact</label>
+                            <input type="text" id="reg-contact" placeholder="98XXXXXXXX" pattern="^9\d{9}$">
+                        </div>
+                        <div class="form-group">
+                            <label for="reg-dob"><i class="fas fa-calendar"></i> Date of Birth</label>
+                            <input type="date" id="reg-dob">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="reg-fav-player"><i class="fas fa-star"></i> Favorite Player</label>
+                            <input type="text" id="reg-fav-player" placeholder="e.g., Cristiano Ronaldo">
+                        </div>
+                        <div class="form-group">
+                            <label for="reg-fav-team"><i class="fas fa-shield-halved"></i> Favorite Team</label>
+                            <input type="text" id="reg-fav-team" placeholder="e.g., Real Madrid">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="reg-password"><i class="fas fa-lock"></i> Password</label>
+                            <div class="password-input-wrapper">
+                                <input type="password" id="reg-password" placeholder="Min 8 chars with @_$" required>
+                                <button type="button" class="toggle-password" onclick="togglePassword('reg-password', this)">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="reg-confirm"><i class="fas fa-lock"></i> Confirm Password</label>
+                            <div class="password-input-wrapper">
+                                <input type="password" id="reg-confirm" placeholder="Confirm password" required>
+                                <button type="button" class="toggle-password" onclick="togglePassword('reg-confirm', this)">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <button type="submit" id="register-btn" class="btn btn-primary btn-full">
+                        <span>Create Account</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </button>
+                </form>
+                <div class="auth-footer">
+                    <p>Already have an account? <a href="#" onclick="showPage('login-page')">Sign In</a></p>
+                </div>
+            </div>
+            <div class="auth-bg-art">
+                <div class="floating-shape shape-1"></div>
+                <div class="floating-shape shape-2"></div>
+                <div class="floating-shape shape-3"></div>
+            </div>
+        </div>
+
+        <!-- Forgot Password Page -->
+        <div id="forgot-password-page" class="auth-page hidden">
+            <div class="auth-card glass-card">
+                <div class="auth-header">
+                    <div class="auth-logo">
+                        <i class="fas fa-key"></i>
+                    </div>
+                    <h1>Reset Password</h1>
+                    <p class="auth-subtitle">Enter your email to receive an OTP</p>
+                </div>
+                <form id="forgot-form" class="auth-form">
+                    <div class="form-group">
+                        <label for="forgot-email"><i class="fas fa-envelope"></i> Email</label>
+                        <input type="email" id="forgot-email" placeholder="Enter your email" required>
+                    </div>
+                    <button type="submit" id="forgot-btn" class="btn btn-primary btn-full">
+                        <span>Send OTP</span>
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                </form>
+                <div class="auth-footer">
+                    <p>Remember your password? <a href="#" onclick="showPage('login-page')">Sign In</a></p>
+                </div>
+            </div>
+            <div class="auth-bg-art">
+                <div class="floating-shape shape-1"></div>
+                <div class="floating-shape shape-2"></div>
+                <div class="floating-shape shape-3"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== MAIN APPLICATION ===== -->
+    <div id="app-container" class="app-container hidden">
+        <!-- Sidebar -->
+        <aside id="sidebar" class="sidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-logo">
+                    <i class="fas fa-futbol"></i>
+                    <span>FutsLab</span>
+                </div>
+                <button id="sidebar-toggle" class="sidebar-toggle" onclick="toggleSidebar()">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+
+            <nav class="sidebar-nav">
+                <ul>
+                    <li class="nav-item active" data-page="dashboard">
+                        <a href="#" onclick="navigateTo('dashboard')">
+                            <i class="fas fa-home"></i>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li class="nav-item" data-page="games">
+                        <a href="#" onclick="navigateTo('games')">
+                            <i class="fas fa-gamepad"></i>
+                            <span>Games</span>
+                        </a>
+                    </li>
+                    <li class="nav-item" data-page="players">
+                        <a href="#" onclick="navigateTo('players')">
+                            <i class="fas fa-users"></i>
+                            <span>Players</span>
+                        </a>
+                    </li>
+                    <li class="nav-item" data-page="profile">
+                        <a href="#" onclick="navigateTo('profile')">
+                            <i class="fas fa-user-circle"></i>
+                            <span>Profile</span>
+                        </a>
+                    </li>
+                    <!-- Manager-only options -->
+                    <li class="nav-item manager-only hidden" data-page="create-game">
+                        <a href="#" onclick="navigateTo('create-game')">
+                            <i class="fas fa-plus-circle"></i>
+                            <span>Create Game</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+
+            <div class="sidebar-footer">
+                <div class="user-info">
+                    <div class="user-avatar">
+                        <img id="sidebar-avatar" src="" alt="avatar">
+                    </div>
+                    <div class="user-details">
+                        <span id="sidebar-username" class="user-name">User</span>
+                        <span id="sidebar-role" class="user-role">Player</span>
+                    </div>
+                </div>
+                <button class="btn btn-logout" onclick="logout()">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Logout</span>
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main id="main-content" class="main-content">
+            <!-- Top Bar -->
+            <header class="topbar">
+                <button class="mobile-menu-btn" onclick="toggleSidebar()">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <div class="topbar-title">
+                    <h2 id="page-title">Dashboard</h2>
+                </div>
+                <div class="topbar-actions">
+                    <div class="search-bar">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="global-search" placeholder="Search players, games..." oninput="handleSearch(this.value)">
+                    </div>
+                    <div class="topbar-user" onclick="navigateTo('profile')">
+                        <img id="topbar-avatar" src="" alt="avatar">
+                        <span id="topbar-username">User</span>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Dashboard Page -->
+            <div id="dashboard-page" class="page active">
+                <div class="dashboard-grid">
+                    <!-- Stats Cards -->
+                    <div class="stats-row">
+                        <div class="stat-card glass-card" id="stat-rating">
+                            <div class="stat-icon" style="--accent: #6C5CE7;">
+                                <i class="fas fa-star"></i>
+                            </div>
+                            <div class="stat-info">
+                                <span class="stat-value" id="dash-rating">--</span>
+                                <span class="stat-label">Your Rating</span>
+                            </div>
+                            <div class="stat-trend up">
+                                <i class="fas fa-arrow-up"></i>
+                            </div>
+                        </div>
+                        <div class="stat-card glass-card" id="stat-goals">
+                            <div class="stat-icon" style="--accent: #00B894;">
+                                <i class="fas fa-futbol"></i>
+                            </div>
+                            <div class="stat-info">
+                                <span class="stat-value" id="dash-goals">--</span>
+                                <span class="stat-label">Goals</span>
+                            </div>
+                        </div>
+                        <div class="stat-card glass-card" id="stat-assists">
+                            <div class="stat-icon" style="--accent: #FDCB6E;">
+                                <i class="fas fa-hands-helping"></i>
+                            </div>
+                            <div class="stat-info">
+                                <span class="stat-value" id="dash-assists">--</span>
+                                <span class="stat-label">Assists</span>
+                            </div>
+                        </div>
+                        <div class="stat-card glass-card" id="stat-games">
+                            <div class="stat-icon" style="--accent: #E17055;">
+                                <i class="fas fa-trophy"></i>
+                            </div>
+                            <div class="stat-info">
+                                <span class="stat-value" id="dash-games">--</span>
+                                <span class="stat-label">Games Played</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Upcoming Games -->
+                    <div class="dashboard-section glass-card">
+                        <div class="section-header">
+                            <h3><i class="fas fa-calendar-alt"></i> Upcoming Games</h3>
+                            <a href="#" onclick="navigateTo('games')" class="view-all-link">View All <i class="fas fa-arrow-right"></i></a>
+                        </div>
+                        <div id="dash-upcoming-games" class="games-list">
+                            <div class="empty-state">
+                                <i class="fas fa-calendar-xmark"></i>
+                                <p>No upcoming games</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Top Players -->
+                    <div class="dashboard-section glass-card">
+                        <div class="section-header">
+                            <h3><i class="fas fa-ranking-star"></i> Top Players</h3>
+                            <a href="#" onclick="navigateTo('players')" class="view-all-link">View All <i class="fas fa-arrow-right"></i></a>
+                        </div>
+                        <div id="dash-top-players" class="players-grid-mini">
+                            <div class="empty-state">
+                                <i class="fas fa-users-slash"></i>
+                                <p>No players found</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Games Page -->
+            <div id="games-page" class="page hidden">
+                <div class="page-header">
+                    <div class="tab-group">
+                        <button class="tab-btn active" onclick="switchGameTab('upcoming')" id="tab-upcoming">
+                            <i class="fas fa-clock"></i> Upcoming
+                        </button>
+                        <button class="tab-btn" onclick="switchGameTab('completed')" id="tab-completed">
+                            <i class="fas fa-check-circle"></i> Completed
+                        </button>
+                    </div>
+                </div>
+                <div id="games-list-container" class="games-grid">
+                    <div class="empty-state">
+                        <i class="fas fa-gamepad"></i>
+                        <p>Loading games...</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Game Detail Page -->
+            <div id="game-detail-page" class="page hidden">
+                <button class="btn btn-back" onclick="navigateTo('games')">
+                    <i class="fas fa-arrow-left"></i> Back to Games
+                </button>
+                <div id="game-detail-content" class="game-detail-layout">
+                    <!-- Dynamically populated -->
+                </div>
+            </div>
+
+            <!-- Players Page -->
+            <div id="players-page" class="page hidden">
+                <div class="page-header">
+                    <h3>All Players</h3>
+                </div>
+                <div id="players-grid" class="players-grid">
+                    <div class="empty-state">
+                        <i class="fas fa-users"></i>
+                        <p>Loading players...</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Player Detail Page -->
+            <div id="player-detail-page" class="page hidden">
+                <button class="btn btn-back" onclick="navigateTo('players')">
+                    <i class="fas fa-arrow-left"></i> Back to Players
+                </button>
+                <div id="player-detail-content" class="player-detail-layout">
+                    <!-- Dynamically populated -->
+                </div>
+            </div>
+
+            <!-- Profile Page -->
+            <div id="profile-page" class="page hidden">
+                <div class="profile-layout">
+                    <div class="profile-header-card glass-card">
+                        <div class="profile-cover"></div>
+                        <div class="profile-info-main">
+                            <div class="profile-avatar-wrapper">
+                                <img id="profile-avatar" src="" alt="avatar">
+                                <label for="profile-photo-upload" class="avatar-edit-btn">
+                                    <i class="fas fa-camera"></i>
+                                </label>
+                                <input type="file" id="profile-photo-upload" accept="image/*" hidden onchange="handlePhotoUpload(this)">
+                            </div>
+                            <div class="profile-name-section">
+                                <h2 id="profile-name">--</h2>
+                                <span id="profile-email" class="profile-email">--</span>
+                                <span id="profile-role-badge" class="role-badge">Player</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="profile-stats-row">
+                        <div class="profile-stat glass-card">
+                            <span class="profile-stat-value" id="profile-rating">--</span>
+                            <span class="profile-stat-label">Rating</span>
+                        </div>
+                        <div class="profile-stat glass-card">
+                            <span class="profile-stat-value" id="profile-goals">--</span>
+                            <span class="profile-stat-label">Goals</span>
+                        </div>
+                        <div class="profile-stat glass-card">
+                            <span class="profile-stat-value" id="profile-assists">--</span>
+                            <span class="profile-stat-label">Assists</span>
+                        </div>
+                        <div class="profile-stat glass-card">
+                            <span class="profile-stat-value" id="profile-games-played">--</span>
+                            <span class="profile-stat-label">Games</span>
+                        </div>
+                    </div>
+
+                    <div class="profile-edit-card glass-card">
+                        <h3><i class="fas fa-edit"></i> Edit Profile</h3>
+                        <form id="edit-profile-form" class="edit-profile-form">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="edit-name">Name</label>
+                                    <input type="text" id="edit-name" placeholder="Your name">
+                                </div>
+                                <div class="form-group">
+                                    <label for="edit-contact">Contact</label>
+                                    <input type="text" id="edit-contact" placeholder="98XXXXXXXX">
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="edit-dob">Date of Birth</label>
+                                    <input type="date" id="edit-dob">
+                                </div>
+                                <div class="form-group">
+                                    <label for="edit-fav-player">Favorite Player</label>
+                                    <input type="text" id="edit-fav-player">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="edit-fav-team">Favorite Team</label>
+                                <input type="text" id="edit-fav-team">
+                            </div>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save"></i> Save Changes
+                            </button>
+                        </form>
+                    </div>
+
+                    <div class="profile-edit-card glass-card">
+                        <h3><i class="fas fa-lock"></i> Change Password</h3>
+                        <form id="change-password-form" class="edit-profile-form">
+                            <div class="form-group">
+                                <label for="current-password">Current Password</label>
+                                <input type="password" id="current-password" required>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="new-password">New Password</label>
+                                    <input type="password" id="new-password" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="confirm-new-password">Confirm Password</label>
+                                    <input type="password" id="confirm-new-password" required>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-key"></i> Update Password
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Create Game Page (Manager Only) -->
+            <div id="create-game-page" class="page hidden">
+                <div class="create-game-layout">
+                    <div class="glass-card create-game-card">
+                        <h3><i class="fas fa-plus-circle"></i> Create New Game</h3>
+                        <form id="create-game-form" class="edit-profile-form">
+                            <div class="form-group">
+                                <label for="game-futsal">Futsal Venue</label>
+                                <select id="game-futsal" required>
+                                    <option value="">Select a venue</option>
+                                </select>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="game-date">Date</label>
+                                    <input type="date" id="game-date" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="game-time">Time</label>
+                                    <input type="time" id="game-time" value="18:00" required>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-full">
+                                <i class="fas fa-plus"></i> Create Game
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Toast Container -->
+    <div id="toast-container" class="toast-container"></div>
+
+    <!-- Modal -->
+    <div id="modal-overlay" class="modal-overlay hidden" onclick="closeModal()">
+        <div class="modal-content glass-card" onclick="event.stopPropagation()">
+            <button class="modal-close" onclick="closeModal()"><i class="fas fa-times"></i></button>
+            <div id="modal-body"></div>
+        </div>
+    </div>
+
+    <script src="/static/js/app.js"></script>
+</body>
+</html>

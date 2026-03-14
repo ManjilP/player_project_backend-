@@ -1,0 +1,75 @@
+services:
+  server:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: futsal_app:latest
+    container_name: futsal_server
+    ports:
+      - 8000:8000
+    volumes:
+      - .:/app
+      - ./static:/app/static
+      - ./media:/app/media
+    networks:
+      - postgres_network
+    env_file:
+      - .env
+    depends_on:
+      postgres:
+        condition: service_healthy
+  
+  postgres:
+    image: postgres
+    container_name: postgres
+    restart: always
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    env_file:
+      - .env
+    environment:
+      - POSTGRES_DB=${DATABASE_NAME}
+      - POSTGRES_USER=${DATABASE_USERNAME}
+      - POSTGRES_PASSWORD=${DATABASE_PASSWORD}
+    ports:
+      - 5432:5432
+    networks:
+      - postgres_network
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U ${DATABASE_USERNAME}" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:alpine
+    container_name: redis
+    restart: always
+    expose:
+      - 6379
+    networks:
+      - postgres_network
+
+  celery:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: futsal_celery:latest
+    container_name: celery
+    command: celery -A futsal_management.celery worker --loglevel=info
+    restart: on-failure
+    env_file:
+      - .env
+    depends_on:
+      - redis
+      - postgres
+      - server
+    networks:
+      - postgres_network
+
+volumes:
+  db-data:
+
+networks:
+  postgres_network:
+    driver: bridge
