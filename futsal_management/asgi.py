@@ -1,23 +1,15 @@
-"""
-ASGI config for futsal_management project.
-
-It exposes the ASGI callable as a module-level variable named ``application``.
-
-For more information on this file, see
-https://docs.djangoproject.com/en/5.1/howto/deployment/asgi/
-"""
-
 import os
-
+import django
 from django.core.asgi import get_asgi_application
-
 from channels.routing import ProtocolTypeRouter, URLRouter
-from chat.routing import websocket_urlpatterns
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'futsal_management.settings')
+django.setup()
 
+# This must be called before importing anything that uses models
 django_asgi_app = get_asgi_application()
 
+# Now we can safely import routing
 from chat.routing import websocket_urlpatterns
 
 application = ProtocolTypeRouter(
